@@ -1,18 +1,17 @@
-import { useEffect, useState } from "react";
-import "./index.css";
-
 // `https://api.frankfurter.app/latest?amount=100&from=EUR&to=USD`
+
+import { useEffect, useState } from "react";
 
 export default function App() {
   const [amount, setAmount] = useState(1);
-  const [fromCur, setFromCur] = useState("INR");
+  const [fromCur, setFromCur] = useState("EUR");
   const [toCur, setToCur] = useState("USD");
   const [converted, setConverted] = useState("");
-  const [isloading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(
     function () {
-      async function Convert() {
+      async function convert() {
         setIsLoading(true);
         const res = await fetch(
           `https://api.frankfurter.app/latest?amount=${amount}&from=${fromCur}&to=${toCur}`
@@ -23,22 +22,23 @@ export default function App() {
       }
 
       if (fromCur === toCur) return setConverted(amount);
-      Convert();
+      convert();
     },
     [amount, fromCur, toCur]
   );
+
   return (
-    <div className="App">
+    <div>
       <input
         type="text"
         value={amount}
         onChange={(e) => setAmount(Number(e.target.value))}
-        disabled={isloading}
+        disabled={isLoading}
       />
       <select
         value={fromCur}
         onChange={(e) => setFromCur(e.target.value)}
-        disabled={isloading}
+        disabled={isLoading}
       >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
@@ -48,7 +48,7 @@ export default function App() {
       <select
         value={toCur}
         onChange={(e) => setToCur(e.target.value)}
-        disabled={isloading}
+        disabled={isLoading}
       >
         <option value="USD">USD</option>
         <option value="EUR">EUR</option>
